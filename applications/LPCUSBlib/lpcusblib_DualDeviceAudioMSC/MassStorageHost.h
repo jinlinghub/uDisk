@@ -214,7 +214,7 @@ extern "C" {
 /**
  * @}
  */
-
+    #define FLASH_DISK_CORENUM 1
 /** @defgroup Mass_Storage_Host_Definition Main definitions
  * @ingroup Mass_Storage_Host_18xx43xx Mass_Storage_Host_17xx40xx
  * @{

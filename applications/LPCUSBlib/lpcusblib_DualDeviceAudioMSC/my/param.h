@@ -1,6 +1,7 @@
 #include "Common.h"
 
 	enum	JL_USBSelect {
+    USBCommModeIdle,              //通信空闲;
 		USBCommModePC,								//PC通信模式;
 		USBCommModePhone,							//Phone通信模式
 	};

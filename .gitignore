@@ -1,0 +1,11 @@
+*.lst
+*.crf
+*.d
+*.o
+*.axf
+*.hex
+*.htm
+*.plg
+*.lnp
+*.plg
+*.dep

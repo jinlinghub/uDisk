@@ -31,6 +31,7 @@
 //#include "AudioOutput.h"
 #include "MassStorage.h"
 #include "MassStorageHost.h"
+#include "MassStorageHost.h"
 #include "param.h"
 
 /** Main program entry point. This routine contains the overall program flow, including initial
@@ -44,6 +45,7 @@ int main(void)
 	DEBUGOUT("CPU speed = %d MHz\n\r", Chip_Clock_GetRate(CLK_MX_MXCORE)/1000000);
 	
 	MassStorageDeviceSetupHardware();
+	MassStorageHostSetupHardware();
 	
 	for (;; ) 
 	{
@@ -53,18 +55,83 @@ int main(void)
 		{
 			case USB_MODE_Device:
 			{
-				
 				// Run the device mode and MSC class stacks
 				MS_Device_USBTask(&Disk_MS_Interface);
 				USB_USBTask(MASS_STORAGE_CORENUM, USB_MODE_Device);
 			}
 			break;
 			
+      case USB_MODE_Host :
+      {
+        MS_Host_USBTask(&FlashDisk_MS_Interface);
+        USB_USBTask(FLASH_DISK_CORENUM,USB_MODE_Host);
+      }
+      break;
 			default :
 			{
 				DEBUGOUT("\n=========USB Mode Not used==============");
-			}
+		
+      }
 			break;
 		}
+//TODO_JL
+/*
+    main()
+    {
+    BoardInit();
+//    SDMMCInit();
+//    MassStorageDeviceSetupHardware();
+//    MassStorageHostSetupHardware();
+    for(;;)
+    {
+      if(uDiskFlag.jl_USBSelect == USBCommModeIdle)
+      {
+         if(Insert==getUsbStatus(USB1)
+         {
+            SDMMCInit();
+            MassStorageHostSetupHardware();
+            uDiskFlag.jl_USBSelect = USBCommModePhone;
+         }
+      }
+    
+      if(uDiskFlag.jl_USBSelect != USBCommModePC)
+      {
+        if(Insert==getUsbStatus(USB0))
+        {
+          if(uDiskFlag.jl_USBSelect == USBCommModePhone)
+            UnMassStorageHostSetupHardware();
+          SDMMCInit();
+          MassStorageDeviceSetupHardware();
+          uDiskFlag.jl_USBSelect = USBCommModePC;
+        }
+      }
+    
+      switch(uDiskFlag.jl_USBSelect)
+      {
+        case USBCommModePC :
+        {
+           MassStorageHostDeal();
+        }break;
+        
+        case USBCommModePhone :
+        {
+          switch(uDiskFlag.jl_USBPhoneMode)
+          {
+            case USBPhoneAndroid :
+            {
+               AndroidCommDeal();
+            }break;
+            
+            case USBPhoneIOS :
+            {
+              IOSCommDeal();
+            }break;
+          }
+        }
+      } end of switch() 
+    } end of for()
+  } end of main()
+		
+*/
 	}
 }
